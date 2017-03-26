@@ -254,59 +254,345 @@ dialog.matches('Exercise', [
       		var extraday = 0;
       	}
     	createEvent(globalAuth, eventName.entity,"",moment(time).add(extraday,'days').format('YYYY-MM-DDTHH:mm:SS-07:00'), moment(time).add(extraday,'days').add(duration, 'minutes').format('YYYY-MM-DDTHH:mm:SS-07:00'));
+        session.send("The event has been successfully created!");
+     }
+     else if(date){
+     		//TODO:SEARCH
+     		var now = moment().format('YYYY-MM-DDTHH:mm:SS-07:00');
+     		var calendar = google.calendar('v3');
+     		var nextAvailTime = calendar.freebusy.query({
+     			auth: globalAuth,
+     			resource: {
+     				items: [{'id':0}],
+     			timeMin: moment().format('YYYY-MM-DDTHH:mm:SS-07:00'),
+     			timeMax: moment().add(5).format('YYYY-MM-DDTHH:mm:SS-07:00'),
+     			}}, function (err, res) {
+     				if (err) console.log(err);
+     				var events = res.calendars[0].busy;
+     				if (events.length == 0) {
+     					console.log('no upcoming events found');
+     				} else {
+     					console.log('busy here');
+     				}
+     			});
+
+
+     }else{
 
      }
-     // else if(date){
-     // 		//TODO:SEARCH
-     // 		var now = moment().format('YYYY-MM-DDTHH:mm:SS-07:00');
-     // 		var calendar = google.calendar('v3');
-     // 		var nextAvailTime = calendar.freebusy.query({
-     // 			auth: globalAuth,
-     // 			resource: {
-     // 				items: [{'id':0}],
-     // 			timeMin: moment().format('YYYY-MM-DDTHH:mm:SS-07:00'),
-     // 			timeMax: moment().add(5).format('YYYY-MM-DDTHH:mm:SS-07:00'),
-     // 			}}, function (err, res) {
-     // 				if (err) console.log(err);
-     // 				var events = res.calendars[0].busy;
-     // 				if (events.length == 0) {
-     // 					console.log('no upcoming events found');
-     // 				} else {
-     // 					console.log('busy here');
-     // 				}
-     // 			});
-
-
-     // }else{
-
-     // }
     }
 
     
 ]);
 dialog.matches('Meeting', [
-    function (session, args, next) {
-    session.send("testing:Meeting");}
+
+	function (session, args, next) {
+
+    date=builder.EntityRecognizer.findEntity(args.entities,'builtin.datetime.date');
+    time=builder.EntityRecognizer.findEntity(args.entities,'builtin.datetime.time');
+    eventName = builder.EntityRecognizer.findEntity(args.entities,'Subject');
+    builder.Prompts.text(session, 'Good, What is the estimated time for the meeting(in minutes)?'); 
+   }, 
+     function (session, results) {
+      var duration = results.response;
+      console.log(date);
+      console.log(time);
+      console.log(eventName);
+
+      // session.send(duration);
+      if(time&&date) {
+      	if(date.entity.toLowerCase() =="tomorrow"){
+      		var extraday =1;
+      	}
+      	else {
+      		var extraday = 0;
+      	}
+    	createEvent(globalAuth, eventName.entity,"",moment(time).add(extraday,'days').format('YYYY-MM-DDTHH:mm:SS-07:00'), moment(time).add(extraday,'days').add(duration, 'minutes').format('YYYY-MM-DDTHH:mm:SS-07:00'));
+        session.send("The event has been successfully created!");
+     }
+     else if(date){
+     		//TODO:SEARCH
+     		var now = moment().format('YYYY-MM-DDTHH:mm:SS-07:00');
+     		var calendar = google.calendar('v3');
+     		var nextAvailTime = calendar.freebusy.query({
+     			auth: globalAuth,
+     			resource: {
+     				items: [{'id':0}],
+     			timeMin: moment().format('YYYY-MM-DDTHH:mm:SS-07:00'),
+     			timeMax: moment().add(5).format('YYYY-MM-DDTHH:mm:SS-07:00'),
+     			}}, function (err, res) {
+     				if (err) console.log(err);
+     				var events = res.calendars[0].busy;
+     				if (events.length == 0) {
+     					console.log('no upcoming events found');
+     				} else {
+     					console.log('busy here');
+     				}
+     			});
+
+
+     }else{
+
+     }
+    }
+
 ]);
 dialog.matches('chores', [
-    function (session, args, next) {
-    session.send("testing:chores");}
+
+	function (session, args, next) {
+
+    date=builder.EntityRecognizer.findEntity(args.entities,'builtin.datetime.date');
+    time=builder.EntityRecognizer.findEntity(args.entities,'builtin.datetime.time');
+    eventName = builder.EntityRecognizer.findEntity(args.entities,'Subject');
+    builder.Prompts.text(session, 'Good, What is the estimated time for the housekeeping(in minutes)'); 
+   }, 
+     function (session, results) {
+      var duration = results.response;
+      console.log(date);
+      console.log(time);
+      console.log(eventName);
+
+      // session.send(duration);
+      if(time&&date) {
+      	if(date.entity.toLowerCase() =="tomorrow"){
+      		var extraday =1;
+      	}
+      	else {
+      		var extraday = 0;
+      	}
+    	createEvent(globalAuth, eventName.entity,"",moment(time).add(extraday,'days').format('YYYY-MM-DDTHH:mm:SS-07:00'), moment(time).add(extraday,'days').add(duration, 'minutes').format('YYYY-MM-DDTHH:mm:SS-07:00'));
+        session.send("The event has been successfully created!");
+     }
+     else if(date){
+     		//TODO:SEARCH
+     		var now = moment().format('YYYY-MM-DDTHH:mm:SS-07:00');
+     		var calendar = google.calendar('v3');
+     		var nextAvailTime = calendar.freebusy.query({
+     			auth: globalAuth,
+     			resource: {
+     				items: [{'id':0}],
+     			timeMin: moment().format('YYYY-MM-DDTHH:mm:SS-07:00'),
+     			timeMax: moment().add(5).format('YYYY-MM-DDTHH:mm:SS-07:00'),
+     			}}, function (err, res) {
+     				if (err) console.log(err);
+     				var events = res.calendars[0].busy;
+     				if (events.length == 0) {
+     					console.log('no upcoming events found');
+     				} else {
+     					console.log('busy here');
+     				}
+     			});
+
+
+     }else{
+
+     }
+    }
 ]);
 dialog.matches('haveHaircut', [
-    function (session, args, next) {
-    session.send("testing:haveHaircut");}
+	function (session, args, next) {
+
+    date=builder.EntityRecognizer.findEntity(args.entities,'builtin.datetime.date');
+    time=builder.EntityRecognizer.findEntity(args.entities,'builtin.datetime.time');
+    eventName = builder.EntityRecognizer.findEntity(args.entities,'Subject');
+    builder.Prompts.text(session, 'Well, What is the estimated time for the haircut(in minutes)?'); 
+   }, 
+     function (session, results) {
+      var duration = results.response;
+      console.log(date);
+      console.log(time);
+      console.log(eventName);
+
+      // session.send(duration);
+      if(time&&date) {
+      	if(date.entity.toLowerCase() =="tomorrow"){
+      		var extraday =1;
+      	}
+      	else {
+      		var extraday = 0;
+      	}
+    	createEvent(globalAuth, eventName.entity,"",moment(time).add(extraday,'days').format('YYYY-MM-DDTHH:mm:SS-07:00'), moment(time).add(extraday,'days').add(duration, 'minutes').format('YYYY-MM-DDTHH:mm:SS-07:00'));
+        session.send("The event has been successfully created!");
+     }
+     else if(date){
+     		//TODO:SEARCH
+     		var now = moment().format('YYYY-MM-DDTHH:mm:SS-07:00');
+     		var calendar = google.calendar('v3');
+     		var nextAvailTime = calendar.freebusy.query({
+     			auth: globalAuth,
+     			resource: {
+     				items: [{'id':0}],
+     			timeMin: moment().format('YYYY-MM-DDTHH:mm:SS-07:00'),
+     			timeMax: moment().add(5).format('YYYY-MM-DDTHH:mm:SS-07:00'),
+     			}}, function (err, res) {
+     				if (err) console.log(err);
+     				var events = res.calendars[0].busy;
+     				if (events.length == 0) {
+     					console.log('no upcoming events found');
+     				} else {
+     					console.log('busy here');
+     				}
+     			});
+
+
+     }else{
+
+     }
+    }
 ]);
 dialog.matches('haveMeal', [
-    function (session, args, next) {
-    session.send("testing:meal");}
+
+	function (session, args, next) {
+
+    date=builder.EntityRecognizer.findEntity(args.entities,'builtin.datetime.date');
+    time=builder.EntityRecognizer.findEntity(args.entities,'builtin.datetime.time');
+    eventName = builder.EntityRecognizer.findEntity(args.entities,'Subject');
+    builder.Prompts.text(session, 'Good, What is the estimated time for the meal(in minutes)?'); 
+   }, 
+     function (session, results) {
+      var duration = results.response;
+      console.log(date);
+      console.log(time);
+      console.log(eventName);
+
+      // session.send(duration);
+      if(time&&date) {
+      	if(date.entity.toLowerCase() =="tomorrow"){
+      		var extraday =1;
+      	}
+      	else {
+      		var extraday = 0;
+      	}
+    	createEvent(globalAuth, eventName.entity,"",moment(time).add(extraday,'days').format('YYYY-MM-DDTHH:mm:SS-07:00'), moment(time).add(extraday,'days').add(duration, 'minutes').format('YYYY-MM-DDTHH:mm:SS-07:00'));
+        session.send("The event has been successfully created!");
+     }
+     else if(date){
+     		//TODO:SEARCH
+     		var now = moment().format('YYYY-MM-DDTHH:mm:SS-07:00');
+     		var calendar = google.calendar('v3');
+     		var nextAvailTime = calendar.freebusy.query({
+     			auth: globalAuth,
+     			resource: {
+     				items: [{'id':0}],
+     			timeMin: moment().format('YYYY-MM-DDTHH:mm:SS-07:00'),
+     			timeMax: moment().add(5).format('YYYY-MM-DDTHH:mm:SS-07:00'),
+     			}}, function (err, res) {
+     				if (err) console.log(err);
+     				var events = res.calendars[0].busy;
+     				if (events.length == 0) {
+     					console.log('no upcoming events found');
+     				} else {
+     					console.log('busy here');
+     				}
+     			});
+
+
+     }else{
+
+     }
+    }
 ]);
 dialog.matches('nap', [
-    function (session, args, next) {
-    session.send("testing:nap");}
+	function (session, args, next) {
+
+    date=builder.EntityRecognizer.findEntity(args.entities,'builtin.datetime.date');
+    time=builder.EntityRecognizer.findEntity(args.entities,'builtin.datetime.time');
+    eventName = builder.EntityRecognizer.findEntity(args.entities,'Subject');
+    builder.Prompts.text(session, 'How long do you want your nap be(in minutes)?'); 
+   }, 
+     function (session, results) {
+      var duration = results.response;
+      console.log(date);
+      console.log(time);
+      console.log(eventName);
+
+      // session.send(duration);
+      if(time&&date) {
+      	if(date.entity.toLowerCase() =="tomorrow"){
+      		var extraday =1;
+      	}
+      	else {
+      		var extraday = 0;
+      	}
+    	createEvent(globalAuth, eventName.entity,"",moment(time).add(extraday,'days').format('YYYY-MM-DDTHH:mm:SS-07:00'), moment(time).add(extraday,'days').add(duration, 'minutes').format('YYYY-MM-DDTHH:mm:SS-07:00'));
+        session.send("The event has been successfully created!");
+     }
+     else if(date){
+     		//TODO:SEARCH
+     		var now = moment().format('YYYY-MM-DDTHH:mm:SS-07:00');
+     		var calendar = google.calendar('v3');
+     		var nextAvailTime = calendar.freebusy.query({
+     			auth: globalAuth,
+     			resource: {
+     				items: [{'id':0}],
+     			timeMin: moment().format('YYYY-MM-DDTHH:mm:SS-07:00'),
+     			timeMax: moment().add(5).format('YYYY-MM-DDTHH:mm:SS-07:00'),
+     			}}, function (err, res) {
+     				if (err) console.log(err);
+     				var events = res.calendars[0].busy;
+     				if (events.length == 0) {
+     					console.log('no upcoming events found');
+     				} else {
+     					console.log('busy here');
+     				}
+     			});
+
+
+     }else{
+
+     }
+    }
 ]);
 dialog.matches('shopping', [
-    function (session, args, next) {
-    session.send("testing:shopping");}
+	function (session, args, next) {
+
+    date=builder.EntityRecognizer.findEntity(args.entities,'builtin.datetime.date');
+    time=builder.EntityRecognizer.findEntity(args.entities,'builtin.datetime.time');
+    eventName = builder.EntityRecognizer.findEntity(args.entities,'Subject');
+    builder.Prompts.text(session, 'Sure, What is the estimated time for the shopping(in minutes)'); 
+   }, 
+     function (session, results) {
+      var duration = results.response;
+      console.log(date);
+      console.log(time);
+      console.log(eventName);
+
+      // session.send(duration);
+      if(time&&date) {
+      	if(date.entity.toLowerCase() =="tomorrow"){
+      		var extraday =1;
+      	}
+      	else {
+      		var extraday = 0;
+      	}
+    	createEvent(globalAuth, eventName.entity,"",moment(time).add(extraday,'days').format('YYYY-MM-DDTHH:mm:SS-07:00'), moment(time).add(extraday,'days').add(duration, 'minutes').format('YYYY-MM-DDTHH:mm:SS-07:00'));
+        session.send("The event has been successfully created!");
+     }
+     else if(date){
+     		//TODO:SEARCH
+     		var now = moment().format('YYYY-MM-DDTHH:mm:SS-07:00');
+     		var calendar = google.calendar('v3');
+     		var nextAvailTime = calendar.freebusy.query({
+     			auth: globalAuth,
+     			resource: {
+     				items: [{'id':0}],
+     			timeMin: moment().format('YYYY-MM-DDTHH:mm:SS-07:00'),
+     			timeMax: moment().add(5).format('YYYY-MM-DDTHH:mm:SS-07:00'),
+     			}}, function (err, res) {
+     				if (err) console.log(err);
+     				var events = res.calendars[0].busy;
+     				if (events.length == 0) {
+     					console.log('no upcoming events found');
+     				} else {
+     					console.log('busy here');
+     				}
+     			});
+
+
+     }else{
+
+     }
+    }
 ]);
 
 

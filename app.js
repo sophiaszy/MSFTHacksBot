@@ -25,4 +25,14 @@ server.post('/api/messages', connector.listen());
 
 bot.dialog('/', function (session) {
     session.send("Hello World");
+    session.beginDialog('/calender')
 });
+
+bot.dialog('/calender', [
+	function (session) {
+        builder.Prompts.text(session, 'Hi! What is your name?');
+    },
+    function (session, results) {
+        session.endDialogWithResult(results);
+    }]
+);

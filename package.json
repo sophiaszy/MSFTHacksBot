@@ -10,6 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "botbuilder": "^3.7.0",
+    "google-auth-library": "^0.10.0",
+    "googleapis": "^18.0.0",
+    "request": "^2.81.0",
     "restify": "^4.3.0"
   }
 }
